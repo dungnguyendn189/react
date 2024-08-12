@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import StarRating from "./StarRating";
+import { number } from "prop-types";
 
 // const tempMovieData = [
 //   {
@@ -211,6 +213,7 @@ function Box({ children }) {
 
 function MovieDetail({ selectedId, handleCloseMovie }) {
   const [movie, setMovie] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
   const {
     Title: title,
     Year: year,
@@ -227,11 +230,13 @@ function MovieDetail({ selectedId, handleCloseMovie }) {
   useEffect(
     function () {
       async function getMovieDetails() {
+        setIsLoading(true);
         const res = await fetch(
           `http://www.omdbapi.com/?apikey=${KEY}&i=${selectedId}`
         );
         const data = await res.json();
         setMovie(data);
+        setIsLoading(false);
       }
       getMovieDetails();
     },
@@ -239,21 +244,41 @@ function MovieDetail({ selectedId, handleCloseMovie }) {
   );
   return (
     <div className="details">
-      <header>
-        <button className="btn-back" onClick={handleCloseMovie}>
-          🔙
-        </button>
-        <img src={poster} alt={`Poster of ${movie} movie`} />
-        <div className="details-overview">
-          <h2>{title}</h2>
-          <p>
-            {released} &bull; {rutime}
-          </p>
-          <p>
-            <span>⭐</span> {imdbRating}
-          </p>
-        </div>
-      </header>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <>
+          <header>
+            <button className="btn-back" onClick={handleCloseMovie}>
+              🔙
+            </button>
+            <img src={poster} alt={`Poster of ${movie} movie`} />
+            <div className="details-overview">
+              <h2>{title}</h2>
+              <p>
+                {released} &bull; {rutime}
+              </p>
+              <p>
+                <span>⭐</span> {imdbRating} IMDB rating
+              </p>
+            </div>
+          </header>
+          <section>
+            <div className="rating">
+              <StarRating
+                maxRating={10}
+                size="24"
+                defaulRating={Number(imdbRating)}
+              />
+            </div>
+            <p>
+              <em>{plot}</em>
+            </p>
+            <p>Starring {actors}</p>
+            <p>Direction By {director}</p>
+          </section>
+        </>
+      )}
     </div>
   );
 }
