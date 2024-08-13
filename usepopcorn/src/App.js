@@ -56,7 +56,7 @@ const totalHours = (arr) => arr.reduce((acc, cur, i, arr) => acc + cur, 0);
 const KEY = "aa369ba8";
 
 export default function App() {
-  const [query, setQuery] = useState("inception");
+  const [query, setQuery] = useState("");
   const [movies, setMovies] = useState([]);
   const [watched, setWatched] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -122,6 +122,7 @@ export default function App() {
         setError("");
         return;
       }
+      handleCloseMovie();
       fetchMovie();
       return function () {
         controller.abort();
@@ -283,6 +284,22 @@ function MovieDetail({ selectedId, handleCloseMovie, onaAddWatched, watched }) {
       };
     },
     [title]
+  );
+  useEffect(
+    function () {
+      function callBack(e) {
+        if (e.code === "Escape") {
+          handleCloseMovie();
+          console.log("Closing");
+        }
+      }
+      document.addEventListener("keydown", callBack);
+      return function () {
+        document.removeEventListener("keydown", callBack);
+        console.log("Clean up effect for closing movie");
+      };
+    },
+    [handleCloseMovie]
   );
 
   function handleAddWatched() {
