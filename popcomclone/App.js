@@ -85,7 +85,7 @@ export default function App() {
     setSelectId((selectId) => (id === selectId ? null : id));
   }
 
-  function handleCloseMovie(id) {
+  function handleCloseMovie() {
     setSelectId(null);
   }
 

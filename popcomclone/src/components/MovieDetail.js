@@ -1,10 +1,18 @@
 import { useEffect, useState } from "react";
 import Loader from "./Loader";
 import Staring from "./Staring";
+import { keyboard } from "@testing-library/user-event/dist/keyboard";
 
-export default function MovieDetail({ selectedId, KEY }) {
+export default function MovieDetail({
+  selectedId,
+  KEY,
+  onClose,
+  onAddMovie,
+  watched,
+}) {
   const [movie, setMovie] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [userRating, setUserRating] = useState();
 
   const {
     imdbID,
@@ -18,6 +26,30 @@ export default function MovieDetail({ selectedId, KEY }) {
     imdbRating,
   } = movie;
 
+  const handleAddDetaiMovie = () => {
+    const newMovie = {
+      imdbID: selectedId,
+      title,
+      runtime,
+      director,
+      poster,
+      plot,
+      released,
+      actors,
+      imdbRating: Number(imdbRating),
+      runtime: Number(runtime.split(" ").at(0)),
+      userRating,
+    };
+    onAddMovie(newMovie);
+    onClose();
+  };
+  const isEquals = watched.map((movie) => movie.imdbID).includes(selectedId);
+
+  useEffect(function () {
+    if (!title) return;
+    document.title = `Movie|${title}`;
+  });
+
   useEffect(
     function () {
       async function getMovieDetails() {
@@ -29,9 +61,7 @@ export default function MovieDetail({ selectedId, KEY }) {
           const data = await res.json();
           setMovie(data);
           setIsLoading(false);
-        } catch (e) {
-          console.log(e.message);
-        }
+        } catch (e) {}
       }
       getMovieDetails();
     },
@@ -45,7 +75,10 @@ export default function MovieDetail({ selectedId, KEY }) {
       ) : (
         <>
           <header>
-            <button className="btn-back"> 🎗️</button>
+            <button className="btn-back" onClick={onClose}>
+              {" "}
+              🎗️
+            </button>
 
             <img src={poster} alt={`Poster of ${movie} movie`} />
             <div className="details-overview">
@@ -59,9 +92,14 @@ export default function MovieDetail({ selectedId, KEY }) {
             </div>
           </header>
           <section>
-            <div className="rating">
-              <Staring />
-            </div>
+            {!isEquals && (
+              <div className="rating">
+                <Staring maxRating={10} setRating={setUserRating} />
+                <button className="btn-add" onClick={handleAddDetaiMovie}>
+                  + Add to list
+                </button>
+              </div>
+            )}
 
             <p>
               <em>{plot}</em>

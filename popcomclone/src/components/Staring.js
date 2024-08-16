@@ -14,18 +14,11 @@ export default function Staring({
   color = "#fcc419",
   maxRating = 10,
   setDefaultRating = 0,
-  onSetRating,
   fontSize = "24px",
   widthStart = "24px",
   heightStart = "24px",
+  setRating,
 }) {
-  const [rating, setRating] = useState(setDefaultRating);
-  const [tempRating, setTempRating] = useState(0);
-
-  const handleRating = (rating) => {
-    setRating(rating);
-  };
-
   const textStyle = {
     lineHeight: "0",
     margin: "0",
@@ -33,36 +26,42 @@ export default function Staring({
     fontSize: `${fontSize}`,
   };
 
+  const [staring, setStaring] = useState(setDefaultRating);
+  const [templateRating, setTemplateRating] = useState(0);
+
+  const handleStaring = (staring) => {
+    setStaring(staring);
+    setRating(staring);
+  };
+
   return (
     <div style={containerStyle}>
       <div style={startContainer}>
-        {Array.from({ length: maxRating }, (_, i) => {
-          return (
-            <Stars
-              onSelect={() => handleRating(i + 1)}
-              full={tempRating ? tempRating >= i + 1 : rating >= i + 1}
-              onMouse={() => setTempRating(i + 1)}
-              outMouse={() => setTempRating(0)}
-              color={color}
-              widthStart={widthStart}
-              heightStart={heightStart}
-            />
-          );
-        })}
+        {Array.from({ length: maxRating }, (_, i) => (
+          <Stars
+            onSet={() => handleStaring(i + 1)}
+            color={color}
+            full={templateRating ? templateRating >= i + 1 : staring >= i + 1}
+            onInHover={() => setTemplateRating(i + 1)}
+            onOutHover={() => setTemplateRating(0)}
+            widthStart={widthStart}
+            heightStart={heightStart}
+          />
+        ))}
       </div>
-      <p style={textStyle}>{tempRating || rating || ""}</p>
+      <p style={textStyle}>{templateRating || staring || ""}</p>
     </div>
   );
 }
 
 function Stars({
-  onSelect,
-  full,
-  onMouse,
-  outMouse,
   color,
   widthStart,
   heightStart,
+  onSet,
+  full,
+  onInHover,
+  onOutHover,
 }) {
   const startStyle = {
     width: `${widthStart}`,
@@ -73,9 +72,9 @@ function Stars({
   return (
     <span
       style={startStyle}
-      onClick={onSelect}
-      onMouseEnter={onMouse}
-      onMouseLeave={outMouse}
+      onClick={onSet}
+      onMouseEnter={onInHover}
+      onMouseLeave={onOutHover}
     >
       {full ? (
         <svg
