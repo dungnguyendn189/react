@@ -8,6 +8,7 @@ export default function App() {
   const [selected2, setSelected2] = useState("EUR");
   const [input, setInput] = useState("1");
   const [err, setErr] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const handleSlected1 = (e) => {
     setSelected1(e.target.value);
   };
@@ -24,6 +25,7 @@ export default function App() {
       async function fetchData() {
         try {
           setErr("");
+          setIsLoading(true);
           const res = await fetch(
             `https://api.frankfurter.app/latest?amount=${input}&from=${selected1}&to=${selected2}`,
             { signal: controller.signal }
@@ -32,12 +34,14 @@ export default function App() {
           const data = await res.json();
           setMoney(data.rates);
           setErr("");
+          setIsLoading(false);
         } catch (err) {
           if (err.name !== "AboutError") {
             setErr(err.message);
           }
         }
       }
+      if (selected1 === selected2) return fetchData();
       fetchData();
       return function () {
         controller.abort();
@@ -48,20 +52,25 @@ export default function App() {
 
   return (
     <div>
-      <input type="text" value={input} onChange={handleInput} />
-      <select value={selected1} onChange={handleSlected1}>
+      <input
+        type="text"
+        value={input}
+        onChange={handleInput}
+        disabled={isLoading}
+      />
+      <select value={selected1} onChange={handleSlected1} disabled={isLoading}>
         <option value="USD">USD</option>
         <option value="EUR">EUR</option>
         <option value="CAD">CAD</option>
         <option value="INR">INR</option>
       </select>
-      <select value={selected2} onChange={handleSlected2}>
+      <select value={selected2} onChange={handleSlected2} disabled={isLoading}>
         <option value="USD">USD</option>
         <option value="EUR">EUR</option>
         <option value="CAD">CAD</option>
         <option value="INR">INR</option>
       </select>
-      <p>{err ? 0 : money[selected2]}</p>
+      <p>{err ? " " : `${money[selected2]} ${selected2}`} </p>
     </div>
   );
 }
