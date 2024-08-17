@@ -73,7 +73,9 @@ export default function App() {
     },
     [query]
   );
-
+  useEffect(function () {
+    localStorage.setItem(watched);
+  }, watched);
   return (
     <>
       <Navbar>
