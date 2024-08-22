@@ -40,7 +40,7 @@ class App extends React.Component {
   };
 
   fetcherWeather = async () => {
-    if (this.state.location < 2) return;
+    if (this.state.location.length < 2) return this.setState({ weather: {} });
     try {
       this.setState({ isLoading: true });
       // 1) Getting location (geocoding)
@@ -79,11 +79,13 @@ class App extends React.Component {
 
   componentDidMount = () => {
     // this.fetcherWeather();
+    this.setState({ location: localStorage.getItem("location") });
   };
 
   componentDidUpdate = (prevProps, preveStates) => {
-    if (this.state.location !== prevProps.location) {
+    if (this.state.location !== preveStates.location) {
       this.fetcherWeather();
+      localStorage.setItem("location", this.state.location);
     }
   };
 
@@ -124,6 +126,9 @@ class Input extends React.Component {
 }
 
 class Weather extends React.Component {
+  componentWillUnmount() {
+    console.log("Weather will unmount");
+  }
   render() {
     const {
       temperature_2m_max: max,
