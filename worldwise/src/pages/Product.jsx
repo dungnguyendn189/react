@@ -1,5 +1,12 @@
+import PageNav from '../components/pageNav';
+
 function Froduct() {
-  return <h1>ProDuct</h1>;
+  return (
+    <>
+      <PageNav />
+      <h1>ProDuct</h1>
+    </>
+  );
 }
 
 export default Froduct;
