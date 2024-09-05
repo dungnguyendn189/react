@@ -5,7 +5,7 @@ function HomePage() {
   return (
     <>
       <PageNav />
-      <h1>HomePage</h1>
+      <h1 className="test">HomePage</h1>
       <Link to="/app">Go to the App</Link>
     </>
   );
