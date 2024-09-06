@@ -1,7 +1,14 @@
+import SideBar from '../components/SideBar';
+import styles from './AppLayout.module.css';
+import Map from '../components/Map';
+
 function AppLayout() {
-    return <div>
-        <p>App</p>
-    </div>;
+  return (
+    <div className={styles.app}>
+      <SideBar />
+      <Map />
+    </div>
+  );
 }
 
 export default AppLayout;
