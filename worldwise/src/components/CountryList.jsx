@@ -14,12 +14,27 @@ function CountryList({ cities, isLoading }) {
   //   if(!cur.map(el => el.city).includes(city => city.country))
   // });
 
-  const countries = {};
+  // const countries = cities.reduce((arr, city) => {
+  //   // Kiểm tra xem country của city đã có trong arr hay chưa
+  //   if (!arr.some((el) => el.country === city.country)) {
+  //     return [...arr, { country: city.country, emoji: city.emoji }];
+  //   } else {
+  //     return arr;
+  //   }
+  // }, []);
+
+  const countries = cities.reduce((arr, city) => {
+    if (!arr.map((el) => el.country).includes(city.country))
+      return [...arr, { country: city.country, emoji: city.emoji }];
+    else {
+      return arr;
+    }
+  }, []);
 
   return (
     <ul className={styles.countryList}>
       {countries.map((country) => (
-        <CountryItem city={country} key={country.id} />
+        <CountryItem country={country} key={country.id} />
       ))}
     </ul>
   );
