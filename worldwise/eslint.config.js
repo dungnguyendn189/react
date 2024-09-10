@@ -21,8 +21,23 @@ export default [
     settings: { react: { version: '18.3' } },
     plugins: {
       react,
+      prettier,
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
+      'prettier/prettier': [
+        'warn',
+        {
+          arrowParens: 'always',
+          semi: false,
+          trailingComma: 'none',
+          tabWidth: 2,
+          endOfLine: 'auto',
+          useTabs: false,
+          singleQuote: true,
+          printWidth: 120,
+          jsxSingleQuote: true,
+        },
+      ],
     },
     rules: {
       ...js.configs.recommended.rules,
