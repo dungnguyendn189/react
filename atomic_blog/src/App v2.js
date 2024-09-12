@@ -1,33 +1,31 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { PostProvider, createRandomPost, usePosts } from "./PostContext";
 
 //create a new context
 
 function App() {
   const [isFakeDark, setIsFakeDark] = useState(false);
-
   useEffect(
     function () {
       document.documentElement.classList.toggle("fake-dark-mode");
     },
     [isFakeDark]
   );
-
   return (
-    <section>
-      <button
-        onClick={() => setIsFakeDark((isFakeDark) => !isFakeDark)}
-        className="btn-fake-dark-mode"
-      >
-        {isFakeDark ? "☀️" : "🌙"}
-      </button>
-      <PostProvider>
+    <PostProvider>
+      <section>
+        <button
+          onClick={() => setIsFakeDark((isFakeDark) => !isFakeDark)}
+          className="btn-fake-dark-mode"
+        >
+          {isFakeDark ? "☀️" : "🌙"}
+        </button>
         <Header />
         <Main />
         <Archive />
         <Footer />
-      </PostProvider>
-    </section>
+      </section>
+    </PostProvider>
   );
 }
 
