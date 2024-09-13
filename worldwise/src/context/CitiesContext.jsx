@@ -25,9 +25,10 @@ function CitiesProvider({ children }) {
   return <CitesContext.Provider value={{ cities, isLoading }}>{children}</CitesContext.Provider>;
 }
 
-function useCitiesContext() {
+function useCities() {
   const context = useContext(CitesContext);
+  if (context === undefined) throw new Error('Cities context was used outside of provider');
   return context;
 }
 
-export { CitiesProvider, useCitiesContext };
+export { CitiesProvider, useCities };

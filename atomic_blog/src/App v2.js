@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { PostProvider, createRandomPost, usePosts } from "./PostContext";
+import { PostProvider, createRandomPost, usePosts } from "./PostContext-v1";
 
 //create a new context
 
