@@ -1,11 +1,13 @@
 // "https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=0&longitude=0"
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useUrlPosition } from '../hooks/useUrlPosition';
 
 import styles from './Form.module.css';
 import Button from './Button';
-import { useNavigate } from 'react-router-dom';
 import BackButton from './BackButton';
+import Message from './Message';
+import Spinner from './Spinner';
 
 export function convertToEmoji(countryCode) {
   const codePoints = countryCode
@@ -15,19 +17,52 @@ export function convertToEmoji(countryCode) {
   return String.fromCodePoint(...codePoints);
 }
 
+const BASE_URL = 'https://api.bigdatacloud.net/data/reverse-geocode-client';
+
 function Form() {
-  const navigate = useNavigate();
+  const [mapLat, mapLng] = useUrlPosition();
+  const [isLoading, setIsLoading] = useState(false);
   const [cityName, setCityName] = useState('');
   const [country, setCountry] = useState('');
   const [date, setDate] = useState(new Date());
   const [notes, setNotes] = useState('');
+  const [emoji, setEmoji] = useState('');
+  const [geocodingError, setGeoCoddingError] = useState();
 
+  useEffect(() => {
+    if (!mapLat && !mapLng) return;
+
+    async function fetchCityData() {
+      try {
+        setIsLoading(true);
+        setGeoCoddingError('');
+        const res = await fetch(`${BASE_URL}?latitude=${mapLat}&longitude=${mapLng}`);
+        const data = await res.json();
+        if (!data.countryCode) throw new Error('Không lấy được giữ liệu từ map , bạn hay click vào chổ khác ');
+
+        setCityName(data.city || data.locality || '');
+        setCountry(data.countryName);
+        setEmoji(convertToEmoji(data.countryCode));
+      } catch (err) {
+        setGeoCoddingError(err.message);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    fetchCityData();
+  }, [mapLat, mapLng]);
+
+  if (isLoading) return <Spinner />;
+
+  if (!mapLat && !mapLng) return <Message message="Vui lòng chọn vào bản đồ" />;
+
+  if (geocodingError) return <Message message={geocodingError} />;
   return (
     <form className={styles.form}>
       <div className={styles.row}>
         <label htmlFor="cityName">City name</label>
         <input id="cityName" onChange={(e) => setCityName(e.target.value)} value={cityName} />
-        {/* <span className={styles.flag}>{emoji}</span> */}
+        <span className={styles.flag}>{emoji}</span>
       </div>
 
       <div className={styles.row}>
