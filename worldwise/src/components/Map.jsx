@@ -10,11 +10,10 @@ import { useUrlPosition } from '../hooks/useUrlPosition';
 function Map() {
   const { cities } = useCities();
 
-  const [mapPosition, setMapPosition] = useState([40, 0]);
+  const [mapPosition, setMapPosition] = useState([59, 0]);
   const { isLoading: isLoaddingPosition, position: geoLocationPosition, getPosition } = useGeolocation();
 
   const [mapLat, mapLng] = useUrlPosition();
-  console.log('citi', mapPosition);
 
   useEffect(
     function () {
@@ -22,6 +21,7 @@ function Map() {
     },
     [mapLat, mapLng],
   );
+
   useEffect(
     function () {
       if (geoLocationPosition) setMapPosition([geoLocationPosition.lat, geoLocationPosition.lng]);
@@ -67,7 +67,6 @@ function ChangeCenter({ position }) {
 
 function DetectClick() {
   const navigate = useNavigate();
-
   useMapEvents({
     click: (e) => {
       navigate(`form?lat=${e.latlng.lat}&lng=${e.latlng.lng}`);
