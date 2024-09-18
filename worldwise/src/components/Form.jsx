@@ -2,12 +2,16 @@
 
 import { useEffect, useState } from 'react';
 import { useUrlPosition } from '../hooks/useUrlPosition';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 import styles from './Form.module.css';
 import Button from './Button';
 import BackButton from './BackButton';
 import Message from './Message';
 import Spinner from './Spinner';
+import { useCities } from '../context/CitiesContext';
+import { useNavigate } from 'react-router-dom';
 
 export function convertToEmoji(countryCode) {
   const codePoints = countryCode
@@ -20,7 +24,10 @@ export function convertToEmoji(countryCode) {
 const BASE_URL = 'https://api.bigdatacloud.net/data/reverse-geocode-client';
 
 function Form() {
-  const [mapLat, mapLng] = useUrlPosition();
+  const [lat, lng] = useUrlPosition();
+  const { createCity } = useCities();
+  const navigate = useNavigate();
+
   const [isLoading, setIsLoading] = useState(false);
   const [cityName, setCityName] = useState('');
   const [country, setCountry] = useState('');
@@ -30,13 +37,13 @@ function Form() {
   const [geocodingError, setGeoCoddingError] = useState();
 
   useEffect(() => {
-    if (!mapLat && !mapLng) return;
+    if (!lat && !lng) return;
 
     async function fetchCityData() {
       try {
         setIsLoading(true);
         setGeoCoddingError('');
-        const res = await fetch(`${BASE_URL}?latitude=${mapLat}&longitude=${mapLng}`);
+        const res = await fetch(`${BASE_URL}?latitude=${lat}&longitude=${lng}`);
         const data = await res.json();
         if (!data.countryCode) throw new Error('Không lấy được giữ liệu từ map , bạn hay click vào chổ khác ');
 
@@ -50,15 +57,30 @@ function Form() {
       }
     }
     fetchCityData();
-  }, [mapLat, mapLng]);
+  }, [lat, lng]);
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    if (!cityName || !date) return;
+    const newCity = {
+      cityName,
+      country,
+      emoji,
+      date,
+      notes,
+      position: { lat, lng },
+    };
+    await createCity(newCity);
+    navigate('/app/cities');
+  }
 
   if (isLoading) return <Spinner />;
 
-  if (!mapLat && !mapLng) return <Message message="Vui lòng chọn vào bản đồ" />;
+  if (!lat && !lng) return <Message message="Vui lòng chọn vào bản đồ" />;
 
   if (geocodingError) return <Message message={geocodingError} />;
   return (
-    <form className={styles.form}>
+    <form className={styles.form} onSubmit={handleSubmit}>
       <div className={styles.row}>
         <label htmlFor="cityName">City name</label>
         <input id="cityName" onChange={(e) => setCityName(e.target.value)} value={cityName} />
@@ -67,7 +89,8 @@ function Form() {
 
       <div className={styles.row}>
         <label htmlFor="date">When did you go to {cityName}?</label>
-        <input id="date" onChange={(e) => setDate(e.target.value)} value={date} />
+        {/* <input id="date" onChange={(e) => setDate(e.target.value)} value={date} /> */}
+        <DatePicker id={date} onChange={(date) => setDate(date)} selected={date} dateFormat="dd/MM/yyyy" />
       </div>
 
       <div className={styles.row}>

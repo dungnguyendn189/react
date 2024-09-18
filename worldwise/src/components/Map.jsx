@@ -13,13 +13,13 @@ function Map() {
   const [mapPosition, setMapPosition] = useState([59, 0]);
   const { isLoading: isLoaddingPosition, position: geoLocationPosition, getPosition } = useGeolocation();
 
-  const [mapLat, mapLng] = useUrlPosition();
+  const [lat, lng] = useUrlPosition();
 
   useEffect(
     function () {
-      if (mapLat && mapLng) setMapPosition([mapLat, mapLng]);
+      if (lat && lng) setMapPosition([lat, lng]);
     },
-    [mapLat, mapLng],
+    [lat, lng],
   );
 
   useEffect(

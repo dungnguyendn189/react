@@ -3,6 +3,8 @@ import { createContext, useContext, useState, useEffect } from 'react';
 const CitesContext = createContext();
 const BASE_URL = 'http://localhost:9000';
 
+functuo;
+
 function CitiesProvider({ children }) {
   const [cities, setCities] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -39,7 +41,43 @@ function CitiesProvider({ children }) {
     }
     fetchCities();
   }
-  return <CitesContext.Provider value={{ cities, isLoading, currentCity, getCity }}>{children}</CitesContext.Provider>;
+
+  async function createCity(newCity) {
+    try {
+      setIsLoading(true);
+      const res = await fetch(`${BASE_URL}/cities`, {
+        method: 'POST',
+        body: JSON.stringify(newCity),
+        headers: { 'Content-Type': 'application/json' },
+      });
+      const data = await res.json();
+      setCities((cities) => [...cities, data]);
+    } catch {
+      alert('There was an error loading data ...');
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  async function deletedCity(id) {
+    try {
+      setIsLoading(true);
+      await fetch(`${BASE_URL}/cities/${id}`, {
+        method: 'DELETE',
+      });
+      setCities((cities) => cities.filter((city) => city.id !== id));
+    } catch {
+      alert('There was an error Deleting city data ...');
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  return (
+    <CitesContext.Provider value={{ cities, isLoading, currentCity, getCity, createCity, deletedCity }}>
+      {children}
+    </CitesContext.Provider>
+  );
 }
 
 function useCities() {
