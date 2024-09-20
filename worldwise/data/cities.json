@@ -1,30 +1,6 @@
 {
   "cities": [
     {
-      "cityName": "Pitlochry",
-      "country": "United Kingdom of Great Britain and Northern Ireland (the)",
-      "emoji": "🇬🇧",
-      "date": "2024-09-17T09:49:40.452Z",
-      "notes": "",
-      "position": {
-        "lat": "56.77870600520637",
-        "lng": "-3.8216313139311042"
-      },
-      "id": 984431925
-    },
-    {
-      "cityName": "Berlanga de Duero",
-      "country": "Spain",
-      "emoji": "🇪🇸",
-      "date": "2024-09-17T09:55:32.874Z",
-      "notes": "",
-      "position": {
-        "lat": "41.46231128611213",
-        "lng": "-2.8772315309075096"
-      },
-      "id": 984431926
-    },
-    {
       "cityName": "Quentar",
       "country": "Spain",
       "emoji": "🇪🇸",
@@ -37,16 +13,64 @@
       "id": 984431927
     },
     {
-      "cityName": "Amberg",
-      "country": "Germany",
-      "emoji": "🇩🇪",
-      "date": "2024-09-17T09:55:40.641Z",
+      "cityName": "Kon Plong",
+      "country": "Viet Nam",
+      "emoji": "🇻🇳",
+      "date": "2024-09-18T08:14:21.159Z",
       "notes": "",
       "position": {
-        "lat": "49.44195565641157",
-        "lng": "11.9105309591698"
+        "lat": "14.607563572188214",
+        "lng": "108.41556952722543"
       },
-      "id": 984431928
+      "id": 984431929
+    },
+    {
+      "cityName": "Torshavn",
+      "country": "Faroe Islands (the)",
+      "emoji": "🇫🇴",
+      "date": "2024-09-19T13:07:26.461Z",
+      "notes": "",
+      "position": {
+        "lat": "62.07360963624778",
+        "lng": "-6.89750274566412"
+      },
+      "id": 984431930
+    },
+    {
+      "cityName": "Brezina",
+      "country": "Algeria",
+      "emoji": "🇩🇿",
+      "date": "2024-09-20T04:53:56.811Z",
+      "notes": "",
+      "position": {
+        "lat": "32.51300929982695",
+        "lng": "1.4014938424664258"
+      },
+      "id": 984431931
+    },
+    {
+      "cityName": "Timokten",
+      "country": "Algeria",
+      "emoji": "🇩🇿",
+      "date": "2024-09-20T04:53:59.451Z",
+      "notes": "",
+      "position": {
+        "lat": "27.66744640217774",
+        "lng": "0.6996195223439284"
+      },
+      "id": 984431932
+    },
+    {
+      "cityName": "Huyen Dak Po",
+      "country": "Viet Nam",
+      "emoji": "🇻🇳",
+      "date": "2024-09-20T04:54:09.339Z",
+      "notes": "",
+      "position": {
+        "lat": "13.926295678127836",
+        "lng": "108.60708923283796"
+      },
+      "id": 984431933
     }
   ]
 }
