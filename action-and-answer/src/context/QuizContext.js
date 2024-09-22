@@ -1,4 +1,3 @@
-import { type } from "@testing-library/user-event/dist/type";
 import { createContext, useContext, useEffect, useReducer } from "react";
 
 const QuizProvider = createContext();
@@ -74,9 +73,7 @@ function QuizContext({ children }) {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-
         dispath({ type: "dataReceived", payload: data });
-        console.log(questions);
       })
       .catch((err) => dispath({ type: "dataFaild" }));
   }, []);
@@ -86,7 +83,18 @@ function QuizContext({ children }) {
     (prev, cur) => prev + cur.points,
     0
   );
-  console.log(questions);
+  const mins = Math.floor(secondRemaining / 60);
+  const seconds = secondRemaining % 60;
+
+  useEffect(
+    function () {
+      const id = setInterval(() => {
+        dispath({ type: "tick" });
+      }, 1000);
+      return () => clearInterval(id);
+    },
+    [dispath]
+  );
 
   return (
     <QuizProvider.Provider
@@ -101,6 +109,8 @@ function QuizContext({ children }) {
         numQuestions,
         maxPossiblePoints,
         secondRemaining,
+        mins,
+        seconds,
       }}
     >
       {children}

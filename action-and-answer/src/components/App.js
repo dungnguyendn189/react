@@ -1,4 +1,5 @@
-import { useEffect, useReducer } from "react";
+import { useQuiz } from "../context/QuizContext";
+
 import Headers from "./Header";
 import Main from "./Main";
 import Loader from "./Loader";
@@ -10,21 +11,9 @@ import Progress from "./Progress";
 import FinishScreen from "./FinishScreen";
 import Footer from "./Footer";
 import Timer from "./Timer";
-import { useQuiz } from "../context/QuizContext";
 
 export default function App() {
-  const {
-    questions,
-    dispath,
-    status,
-    answer,
-    points,
-    index,
-    hightScore,
-    numQuestions,
-    maxPossiblePoints,
-    secondRemaining,
-  } = useQuiz();
+  const { status } = useQuiz();
   return (
     <div className="app">
       <Headers />
@@ -34,37 +23,15 @@ export default function App() {
         {status === "ready" && <StartScreen />}
         {status === "active" && (
           <>
-            <Progress
-              index={index}
-              numQuestions={numQuestions}
-              points={points}
-              maxPossiblePoints={maxPossiblePoints}
-              answer={answer}
-            />
-            <Questions
-              question={questions[index]}
-              dispath={dispath}
-              answer={answer}
-            />
+            <Progress />
+            <Questions />
             <Footer>
-              <Timer dispath={dispath} secondRemaining={secondRemaining} />
-              <NextButton
-                dispath={dispath}
-                answer={answer}
-                index={index}
-                numQuestions={numQuestions}
-              />
+              <Timer />
+              <NextButton />
             </Footer>
           </>
         )}
-        {status === "finished" && (
-          <FinishScreen
-            points={points}
-            maxPossiblePoints={maxPossiblePoints}
-            hightScore={hightScore}
-            dispath={dispath}
-          />
-        )}
+        {status === "finished" && <FinishScreen />}
       </Main>
     </div>
   );
