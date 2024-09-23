@@ -120,6 +120,9 @@ function QuizContext({ children }) {
 
 const useQuiz = () => {
   const context = useContext(QuizProvider);
+  if (context === undefined) {
+    throw new Error("useQuiz must be used outside QuizProvider");
+  }
   return context;
 };
 

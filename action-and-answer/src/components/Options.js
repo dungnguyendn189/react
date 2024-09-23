@@ -1,4 +1,7 @@
-export default function Options({ questions, dispath, answer }) {
+import { useQuiz } from "../context/QuizContext";
+
+export default function Options({ questions }) {
+  const { dispath, answer } = useQuiz();
   const hasAnswered = answer !== null;
   return (
     <div className="options">
@@ -11,7 +14,7 @@ export default function Options({ questions, dispath, answer }) {
                 : "wrong"
               : ""
           }`}
-          key={option}
+          key={index}
           onClick={() => dispath({ type: "newAnswer", payload: index })}
           disabled={hasAnswered}
         >
