@@ -1,4 +1,6 @@
 import { useState } from "react";
+import store from "../../store";
+import { deposit, requestLoan, withdraw, payLoan } from "./accountSlice";
 
 function AccountOperations() {
   const [depositAmount, setDepositAmount] = useState("");
@@ -7,13 +9,21 @@ function AccountOperations() {
   const [loanPurpose, setLoanPurpose] = useState("");
   const [currency, setCurrency] = useState("USD");
 
-  function handleDeposit() {}
+  function handleDeposit() {
+    store.dispatch(deposit(depositAmount));
+  }
 
-  function handleWithdrawal() {}
+  function handleWithdrawal() {
+    store.dispatch(withdraw(withdrawalAmount));
+  }
 
-  function handleRequestLoan() {}
+  function handleRequestLoan() {
+    store.dispatch(requestLoan(loanAmount));
+  }
 
-  function handlePayLoan() {}
+  function handlePayLoan() {
+    store.dispatch(payLoan(loanAmount));
+  }
 
   return (
     <div>
@@ -67,7 +77,7 @@ function AccountOperations() {
         </div>
 
         <div>
-          <span>Pay back $X</span>
+          <span>Pay back {loanAmount}</span>
           <button onClick={handlePayLoan}>Pay loan</button>
         </div>
       </div>

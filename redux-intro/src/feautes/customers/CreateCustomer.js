@@ -1,10 +1,14 @@
 import { useState } from "react";
+import { createCustomer } from "./customerSlice";
+import store from "../../store";
 
 function Customer() {
   const [fullName, setFullName] = useState("");
   const [nationalId, setNationalId] = useState("");
 
-  function handleClick() {}
+  function handleClick() {
+    store.dispatch(createCustomer(fullName, nationalId));
+  }
 
   return (
     <div>
