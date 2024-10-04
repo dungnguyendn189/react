@@ -13,7 +13,7 @@ function BalanceDisplay({ balance }) {
 
 function mapStateToProps(state) {
   return {
-    balance: state.acount.balance,
+    balance: state.account.balance,
   };
 }
 
