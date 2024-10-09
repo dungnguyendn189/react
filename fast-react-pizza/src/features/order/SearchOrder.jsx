@@ -1,5 +1,8 @@
 import { useState } from 'react';
-import { Form, useNavigate } from 'react-router-dom';
+import {
+  Form,
+  useNavigate
+} from 'react-router-dom';
 import { getOrder } from '../../services/apiRestaurant';
 
 function SearchOrder() {
@@ -15,7 +18,11 @@ function SearchOrder() {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <input placeholder='Search order #' value={query} onChange={(e) => setQuery(e.target.value)} />
+      <input
+        placeholder='Search order #'
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+      />
     </Form>
   );
 }

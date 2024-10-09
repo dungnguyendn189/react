@@ -1,6 +1,9 @@
 function getPosition() {
   return new Promise(function (resolve, reject) {
-    navigator.geolocation.getCurrentPosition(resolve, reject);
+    navigator.geolocation.getCurrentPosition(
+      resolve,
+      reject
+    );
   });
 }
 
@@ -9,7 +12,7 @@ async function fetchAddress() {
   const positionObj = await getPosition();
   const position = {
     latitude: positionObj.coords.latitude,
-    longitude: positionObj.coords.longitude,
+    longitude: positionObj.coords.longitude
   };
 
   // 2) Then we use a reverse geocoding API to get a description of the user's address, so we can display it the order form, so that the user can correct it if wrong
