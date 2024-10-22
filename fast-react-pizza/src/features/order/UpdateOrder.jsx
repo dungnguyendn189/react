@@ -14,7 +14,6 @@ function UpdateOrder({ order }) {
 export default UpdateOrder;
 
 export async function action({ request, params }) {
-  console.log(params);
   const data = { priority: true };
   await updateOrder(params.olderId, data);
   return null;
