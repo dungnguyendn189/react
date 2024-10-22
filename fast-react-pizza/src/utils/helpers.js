@@ -1,5 +1,5 @@
 export function formatCurrency(value) {
-  return new Intl.NumberFormat('en', {
+  return new Intl.NumberFormat('en-us', {
     style: 'currency',
     currency: 'EUR'
   }).format(value)
