@@ -4,6 +4,7 @@ import Button from "./Button";
 
 function Home() {
   const userName = useSelector((state) => state.user.userName);
+
   return (
     <div className="p-4 ">
       <h1 className="mb-4 ">
@@ -13,12 +14,12 @@ function Home() {
           Straight out of the oven, straight to you.
         </span>
       </h1>
-      {userName ? (
+      {userName === "" ? (
+        <CreateNewUser />
+      ) : (
         <Button type="primary" to="/menu">
           Continue Odering , {userName}
         </Button>
-      ) : (
-        <CreateNewUser />
       )}
       {/* <Button type="primary">Start ordering</Button> */}
     </div>
