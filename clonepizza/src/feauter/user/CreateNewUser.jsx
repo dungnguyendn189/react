@@ -18,7 +18,7 @@ function CreateNewUser() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="text-center">
       <p className="mb-4 text-sm sm:text-base mt-2">
         👋 Welcome! Please start by telling us your name:
       </p>
