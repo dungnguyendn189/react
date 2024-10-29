@@ -6,7 +6,7 @@ export default {
   ],
   theme: {
     fontFamily: {
-      sans: 'Arima',
+      sans: "Playwrite GB S",
     },
     extend: {
       fontSize: {

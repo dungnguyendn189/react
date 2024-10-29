@@ -6,7 +6,7 @@ function Home() {
   const userName = useSelector((state) => state.user.userName);
 
   return (
-    <div className="p-4 text-center">
+    <div className="py-10 text-center">
       <h1 className="mb-4 font-semibold">
         The best pizza.
         <br />
