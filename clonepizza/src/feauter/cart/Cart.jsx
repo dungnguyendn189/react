@@ -4,6 +4,7 @@ import EmptyCart from "./EmptyCard";
 import LinkButton from "../../ui/LinkButton";
 import CardItem from "./CartItem";
 import Button from "../../ui/Button";
+import { Link } from "react-router-dom";
 
 function Cart() {
   const cart = useSelector(getCart);
@@ -20,7 +21,9 @@ function Cart() {
         ))}
       </ul>
       <div className="my-4 flex gap-2">
-        <Button type="primary">Order</Button>
+        <Button to="/order/new" type="primary">
+          Order
+        </Button>
         <Button type="primary" onClick={() => dispatch(clearCard())}>
           Clear Order
         </Button>

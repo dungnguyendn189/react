@@ -4,6 +4,10 @@ import Home from "./ui/Home";
 import Error from "./ui/error";
 import MenuList, { loader as menuLoader } from "./feauter/menu/MenuList";
 import Cart from "./feauter/cart/Cart";
+import CreateOrder, {
+  action as createOrderAction,
+} from "./feauter/order/CreateOrder";
+import Order from "./feauter/order/Order";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +25,12 @@ const router = createBrowserRouter([
         path: "/cart",
         element: <Cart />,
       },
+      {
+        path: "/order/new",
+        element: <CreateOrder />,
+        action: createOrderAction,
+      },
+      { path: "/order/:orderId", element: <Order /> },
     ],
   },
 ]);

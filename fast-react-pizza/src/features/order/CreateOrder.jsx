@@ -137,6 +137,7 @@ function CreateOrder() {
 export async function action({ request }) {
   const formData = await request.formData();
   const data = Object.fromEntries(formData);
+  console.log(data);
   const order = {
     ...data,
     cart: JSON.parse(data.cart),
@@ -156,8 +157,8 @@ export async function action({ request }) {
   //do not overuse
   store.dispatch(clearCart());
 
-  return redirect(`/order/${newOrder.id}`);
-  // return null;
+  // return redirect(`/order/${newOrder.id}`);
+  return null;
 }
 
 export default CreateOrder;
