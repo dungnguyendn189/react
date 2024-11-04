@@ -157,8 +157,8 @@ export async function action({ request }) {
   //do not overuse
   store.dispatch(clearCart());
 
-  // return redirect(`/order/${newOrder.id}`);
-  return null;
+  return redirect(`/order/${newOrder.id}`);
+  // return null;
 }
 
 export default CreateOrder;
