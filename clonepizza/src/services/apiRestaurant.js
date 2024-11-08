@@ -31,3 +31,16 @@ export async function getOrder(id) {
     console.log(data)
     return data;
 }
+
+export async function updateOrder(id, updateObj) {
+    try {
+        const res = await fetch(`${API_URL}/order/${id}`, {
+            method: 'PATCH',
+            body: JSON.stringify(updateObj),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        if (!res.ok) throw Error()
+    } catch (err) { throw Error('Failed to update') }
+}

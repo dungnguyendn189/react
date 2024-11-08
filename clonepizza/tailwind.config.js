@@ -6,7 +6,7 @@ export default {
   ],
   theme: {
     fontFamily: {
-      sans: "Playwrite GB S",
+      sans: "Rubik",
     },
     extend: {
       fontSize: {

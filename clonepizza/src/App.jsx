@@ -7,6 +7,7 @@ import Cart from "./feauter/cart/Cart";
 import CreateOrder, {
   action as createOrderAction,
 } from "./feauter/order/CreateOrder";
+import { action as UpdateOrder } from "./feauter/order/UpdateOrder";
 import Order, { loader as loaderOrder } from "./feauter/order/Order";
 
 const router = createBrowserRouter([
@@ -30,7 +31,13 @@ const router = createBrowserRouter([
         element: <CreateOrder />,
         action: createOrderAction,
       },
-      { path: "/order/:orderId", element: <Order />, loader: loaderOrder },
+      {
+        path: "/order/:orderId",
+        element: <Order />,
+        loader: loaderOrder,
+        errorElement: <Error />,
+        action: UpdateOrder,
+      },
     ],
   },
 ]);
