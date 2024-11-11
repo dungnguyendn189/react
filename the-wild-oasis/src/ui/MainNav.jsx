@@ -19,7 +19,7 @@ const StyledNavLink = styled(NavLink)`
   &:visited {
     display: flex;
     align-items: center;
-    gap: 1.2rem;
+    gap: 3.2rem;
 
     color: var(--color-grey-600);
     font-size: 1.6rem;
@@ -74,12 +74,12 @@ function MainNav() {
             <HiOutlineHomeModern />
             <span>Cabins</span>
           </StyledNavLink>
-        </li>
-        <li>
-          <StyledNavLink to="/users">
-            <HiOutlineUsers />
-            <span>Users</span>
-          </StyledNavLink>
+          <li>
+            <StyledNavLink to="/users">
+              <HiOutlineUsers />
+              <span>User</span>
+            </StyledNavLink>
+          </li>
         </li>
         <li>
           <StyledNavLink to="/settings">

@@ -1,6 +1,6 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
-import GlobalStyles from "../src/styles/globalStyles";
+import GlobalStyles from "./styles/GlobalStyles";
 import Dashboard from "./pages/Dashboard";
 import Bookings from "./pages/Bookings";
 import Cabins from "./pages/Cabins";
@@ -11,7 +11,7 @@ import Login from "./pages/Login";
 import PageNotFound from "./pages/PageNotFound";
 import AppLayout from "./ui/AppLayout";
 
-export default function App() {
+function App() {
   return (
     <>
       <GlobalStyles />
@@ -34,3 +34,5 @@ export default function App() {
     </>
   );
 }
+
+export default App;
