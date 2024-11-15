@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { formatCurrency } from "../../utils/helpers";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteCabin } from "../../services/apiCabin";
+import toast from "react-hot-toast";
 // import { HiPencil, HiTrash, HiSquare2Stack } from "react-icons/hi2";
 
 // import Menus from "ui/Menus";
@@ -71,12 +72,12 @@ function CabinRow({ cabin }) {
   const { isLoading: isDeleting, mutate } = useMutation({
     mutationFn: deleteCabin,
     onSuccess: () => {
-      alert("cabin deleted successfully");
+      toast.success("cabin deleted successfully");
       queryClient.invalidateQueries({
         queryKey: ["cabin"],
       });
     },
-    onError: (err) => alert(err.message),
+    onError: (err) => toast.error(err.message),
   });
 
   return (
