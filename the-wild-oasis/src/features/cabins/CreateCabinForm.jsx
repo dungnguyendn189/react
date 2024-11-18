@@ -9,6 +9,9 @@ import FileInput from "../../ui/FileInput";
 // import { useEditCabin } from "./useEditCabin";
 import { Textarea } from "../../ui/Textarea";
 import { useForm } from "react-hook-form";
+import { createCabins } from "../../services/apiCabin";
+import toast from "react-hot-toast";
+import { useQueryClient, useMutation } from "@tanstack/react-query";
 
 // We use react-hook-form to make working with complex and REAL-WORLD forms a lot easier. It handles stuff like user validation and errors. manages the form state for us, etc
 // Validating the user’s data passed through the form is a crucial responsibility for a developer.
@@ -16,14 +19,29 @@ import { useForm } from "react-hook-form";
 
 // Receives closeModal directly from Modal
 function CreateCabinForm() {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, reset } = useForm();
+  const queryClient = useQueryClient();
+
+  const { mutate, isLoading: isCreating } = useMutation({
+    mutationFn: createCabins,
+    onSuccess: () => {
+      toast.success("New cabin successfully created");
+      queryClient.invalidateQueries({
+        queryKey: ["cabin"],
+      });
+      reset();
+    },
+    onError: (err) => toast.error(err.message),
+  });
+
+  function onSubmit(data) {
+    mutate(data);
+  }
   return (
-    <Form
-      // onSubmit={handleSubmit(onSubmit, onError)}
-      type="modal"
-    >
+    <Form onSubmit={handleSubmit(onSubmit)} type="modal">
       <FormRow
         label="Cabin name"
+        htmlFor="name"
         // error={errors?.name?.message}
       >
         {/* register your input into the hook by invoking the "register" function */}
@@ -33,9 +51,8 @@ function CreateCabinForm() {
         <Input
           type="text"
           id="name"
-          {...register("name")}
+          {...register("name", { required: "This field is required" })}
           // disabled={register}
-          // {...register("name", { required: "This field is required" })}
         />
       </FormRow>
 
@@ -46,7 +63,7 @@ function CreateCabinForm() {
         <Input
           type="number"
           id="maxCapacity"
-          {...register("maxCapacity")}
+          {...register("maxCapacity", { required: "This field is required" })}
           // disabled={isWorking}
           // {...register("maxCapacity", {
           //   required: "This field is required",
@@ -65,7 +82,7 @@ function CreateCabinForm() {
         <Input
           type="number"
           id="regularPrice"
-          {...register("regularPrice")}
+          {...register("regularPrice", { required: "This field is required" })}
 
           // disabled={isWorking}
           // {...register("regularPrice", {
@@ -86,7 +103,7 @@ function CreateCabinForm() {
           type="number"
           id="discount"
           defaultValue={0}
-          {...register("discount")}
+          {...register("discount", { required: "This field is required" })}
 
           // disabled={isWorking}
           // {...register("discount", {
@@ -106,7 +123,7 @@ function CreateCabinForm() {
           type="number"
           id="description"
           defaultValue=""
-          {...register("description")}
+          {...register("description", { required: "This field is required" })}
 
           // disabled={isWorking}
           // {...register("description", { required: "This field is required" })}
@@ -115,11 +132,13 @@ function CreateCabinForm() {
 
       <FormRow
         label="Cabin photo"
+
         // error={errors?.image?.message}
       >
         <FileInput
           id="image"
           accept="image/*"
+          {...register("iimage", { required: "This field is required" })}
           // disabled={isWorking}
           // {...register("image", {
           //   // required: 'This field is required',
@@ -142,9 +161,7 @@ function CreateCabinForm() {
         >
           Cancel
         </Button>
-        <Button
-        // disabled={isWorking}
-        >
+        <Button disabled={isCreating}>
           Create new cabin
           {/* {isEditSession ? "Edit cabin" : "Create new cabin"} */}
         </Button>
