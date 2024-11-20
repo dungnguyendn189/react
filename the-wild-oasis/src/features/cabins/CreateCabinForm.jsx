@@ -18,8 +18,10 @@ import { useQueryClient, useMutation } from "@tanstack/react-query";
 // React Hook Form takes a slightly different approach than other form libraries in the React ecosystem by adopting the use of uncontrolled inputs using ref instead of depending on the state to control the inputs. This approach makes the forms more performant and reduces the number of re-renders.
 
 // Receives closeModal directly from Modal
+
 function CreateCabinForm() {
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit, reset, getValues, formState } = useForm();
+  const { errors } = formState;
   const queryClient = useQueryClient();
 
   const { mutate, isLoading: isCreating } = useMutation({
@@ -35,117 +37,85 @@ function CreateCabinForm() {
   });
 
   function onSubmit(data) {
-    mutate(data);
+    // console.log(data.image[0]);
+    mutate({ ...data, image: data.image[0] });
   }
-  function onError(err) {
-    console.log(err);
-  }
+  function onError(err) {}
   return (
     <Form onSubmit={handleSubmit(onSubmit, onError)} type="modal">
-      <FormRow
-        label="Cabin name"
-        htmlFor="name"
-        // error={errors?.name?.message}
-      >
-        {/* register your input into the hook by invoking the "register" function */}
-        {/* why the ...? Because this will return an object { onChange, onBlur, customer, ref }, and by spreading we then add all these to the element [show dev tools] */}
-        {/* include validation with required or other standard HTML validation rules: required, min, max, minLength, maxLength, pattern, validate */}
-        {/* errors will return when field validation fails  */}
+      <FormRow label="Cabin name" htmlFor="name" error={errors?.name?.message}>
         <Input
           type="text"
           id="name"
           {...register("name", { required: "This field is required" })}
-          // disabled={register}
+          disabled={isCreating}
         />
       </FormRow>
 
-      <FormRow
-        label="Maximum capacity"
-        // error={errors?.maxCapacity?.message}
-      >
+      <FormRow label="Maximum capacity" error={errors?.maxCapacity?.message}>
         <Input
           type="number"
           id="maxCapacity"
-          {...register("maxCapacity", { required: "This field is required" })}
-          // disabled={isWorking}
-          // {...register("maxCapacity", {
-          //   required: "This field is required",
-          //   min: {
-          //     value: 1,
-          //     message: "Capacity should be at least 1",
-          //   },
-          // })}
+          disabled={isCreating}
+          {...register("maxCapacity", {
+            required: "This field is required",
+            min: {
+              value: 1,
+              message: "Capacity should be at least 1",
+            },
+          })}
         />
       </FormRow>
 
-      <FormRow
-        label="Regular price"
-        // error={errors?.regularPrice?.message}
-      >
+      <FormRow label="Regular price" error={errors?.regularPrice?.message}>
         <Input
           type="number"
           id="regularPrice"
-          {...register("regularPrice", { required: "This field is required" })}
-
-          // disabled={isWorking}
-          // {...register("regularPrice", {
-          //   required: "This field is required",
-          //   min: {
-          //     value: 1,
-          //     message: "Price should be at least 1",
-          //   },
-          // })}
+          disabled={isCreating}
+          {...register("regularPrice", {
+            required: "This field is required",
+            min: {
+              value: 1,
+              message: "Capacity should be at least 1",
+            },
+          })}
         />
       </FormRow>
 
-      <FormRow
-        label="Discount"
-        // error={errors?.discount?.message}
-      >
+      <FormRow label="Discount" error={errors?.discount?.message}>
         <Input
           type="number"
           id="discount"
           defaultValue={0}
-          {...register("discount", { required: "This field is required" })}
-
-          // disabled={isWorking}
-          // {...register("discount", {
-          //   required: "Can't be empty, make it at least 0",
-          //   validate: (value) =>
-          //     getValues().regularPrice >= value ||
-          //     "Discount should be less than regular price",
-          // })}
+          {...register("discount", {
+            required: "This field is required",
+            validate: (value) =>
+              getValues().regularPrice >= value ||
+              "Discount should be les than regular price",
+          })}
+          disabled={isCreating}
         />
       </FormRow>
 
       <FormRow
         label="Description for website"
-        // error={errors?.description?.message}
+        error={errors?.description?.message}
       >
         <Textarea
           type="number"
           id="description"
           defaultValue=""
           {...register("description", { required: "This field is required" })}
-
-          // disabled={isWorking}
-          // {...register("description", { required: "This field is required" })}
+          disabled={isCreating}
         />
       </FormRow>
 
-      <FormRow
-        label="Cabin photo"
-
-        // error={errors?.image?.message}
-      >
+      <FormRow label="Cabin photo" error={errors?.image?.message}>
         <FileInput
           id="image"
           accept="image/*"
-          {...register("iimage", { required: "This field is required" })}
-          // disabled={isWorking}
-          // {...register("image", {
-          //   // required: 'This field is required',
-          //   required: isEditSession ? false : "This field is required",
+          {...register("image", { required: "This field is required" })}
+          disabled={isCreating}
 
           //   // VIDEO this doesn't work, so never mind about this, it's too much
           //   // validate: (value) =>
@@ -159,7 +129,8 @@ function CreateCabinForm() {
         <Button
           variation="secondary"
           type="reset"
-          // disabled={isWorking}
+          disabled={isCreating}
+
           // onClick={() => closeModal?.()}
         >
           Cancel
