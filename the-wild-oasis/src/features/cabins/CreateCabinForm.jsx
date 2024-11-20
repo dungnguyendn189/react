@@ -37,8 +37,11 @@ function CreateCabinForm() {
   function onSubmit(data) {
     mutate(data);
   }
+  function onError(err) {
+    console.log(err);
+  }
   return (
-    <Form onSubmit={handleSubmit(onSubmit)} type="modal">
+    <Form onSubmit={handleSubmit(onSubmit, onError)} type="modal">
       <FormRow
         label="Cabin name"
         htmlFor="name"
