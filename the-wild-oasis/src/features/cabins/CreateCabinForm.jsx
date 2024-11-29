@@ -12,7 +12,7 @@ import { Textarea } from "../../ui/Textarea";
 import useCreateCabin from "./useCreateCabin";
 import useEditCabin from "./useEditCabin";
 
-function CreateCabinForm({ cabinToEdit }) {
+function CreateCabinForm({ cabinToEdit = {}, onClose }) {
   const { id: editId, ...editValues } = cabinToEdit;
 
   const isEditSession = Boolean(editId);
@@ -34,16 +34,32 @@ function CreateCabinForm({ cabinToEdit }) {
     if (isEditSession) {
       editCabin(
         { newCabinData: { ...data, image }, id: editId },
-        { onSuccess: (data) => reset() }
+        {
+          onSuccess: (data) => {
+            reset();
+            onClose?.();
+          },
+        }
       );
     } else
-      createCabin({ ...data, image: image }, { onSuccess: (data) => reset() });
+      createCabin(
+        { ...data, image: image },
+        {
+          onSuccess: (data) => {
+            reset();
+            onClose?.();
+          },
+        }
+      );
   }
 
   function onError(err) {}
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit, onError)} type="modal">
+    <Form
+      onSubmit={handleSubmit(onSubmit, onError)}
+      type={onclose ? "modal" : "regular"}
+    >
       <FormRow label="Cabin name" htmlFor="name" error={errors?.name?.message}>
         <Input
           type="text"
@@ -132,9 +148,8 @@ function CreateCabinForm({ cabinToEdit }) {
         <Button
           variation="secondary"
           type="reset"
-          disabled={isWorking}
-
-          // onClick={() => closeModal?.()}
+          // disabled={isWorking}
+          onClick={() => onClose?.()}
         >
           Cancel
         </Button>
