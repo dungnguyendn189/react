@@ -67,14 +67,16 @@ function Modal({ children }) {
   );
 }
 
-function Open({ children, name, open: opensWindowName }) {
+function Open({ children, name, opens: opensWindowName }) {
   const { open } = useContext(ModalContext);
   return cloneElement(children, { onClick: () => open(opensWindowName) });
 }
 
-export default function Window({ children, name }) {
+function Window({ children, name }) {
   const { openName, close } = useContext(ModalContext);
-  if (name !== openName) return;
+
+  if (name !== openName) return null;
+
   return createPortal(
     <Overlay>
       <StyledModal>
@@ -88,5 +90,7 @@ export default function Window({ children, name }) {
   );
 }
 
-Modal.open = Open;
-Modal.Window = window;
+Modal.Open = Open;
+Modal.Window = Window;
+
+export default Modal;

@@ -12,17 +12,14 @@ function AddCabin() {
       <Modal.Window name="cabin-form">
         <CreateCabinForm />
       </Modal.Window>
-    </Modal>
-  );
-}
-
-{
-  /* <Modal.Open opens="table">
+      {/* <Modal.Open opens="table">
         <Button>Show table</Button>
       </Modal.Open>
       <Modal.Window name="table">
         <CreateCabinForm />
-      </Modal.Window> */
+      </Modal.Window> */}
+    </Modal>
+  );
 }
 
 // function AddCabin() {
