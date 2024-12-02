@@ -12,7 +12,6 @@ export async function getCabins() {
 }
 
 export async function createEditCabins(newCabins, id) {
-    console.log(newCabins, id)
 
     const hasImagePath = newCabins.image?.startsWith?.(supabaseUrl);
 
