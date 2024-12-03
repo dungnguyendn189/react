@@ -12,7 +12,6 @@ import styled from "styled-components";
 import CabinRow from "./CabinRow";
 import useCabin from "./useCabin";
 import Spinner from "../../ui/Spinner";
-import Table from "../../ui/Table";
 
 // v2
 // Right now this is not really reusable... But we will want to use a similar table for guests as well, but with different columns. ALSO, right now we are defining these columns in BOTH the TableHeader and the CabinRow, which is not good at all. Instead, it would be much better to simply pass the columns into the Table, and the table would give access to the columns to both the header and row. So how can we do that? Well we can again use a compound component! We don't HAVE to do it like this, there's a million ways to implement a table, also without CSS Grid, but this is what I chose
@@ -33,13 +32,13 @@ const TableHeader = styled.header`
   padding: 1.6rem 2.4rem;
 `;
 
-// const Table = styled.div`
-//   border: 1px solid var(--color-grey-200);
-//   font-size: 1.4rem;
-//   background-color: var(--color-grey-200);
-//   border-radius: 7px;
-//   overflow: hidden;
-// `;
+const Table = styled.div`
+  border: 1px solid var(--color-grey-200);
+  font-size: 1.4rem;
+  background-color: var(--color-grey-200);
+  border-radius: 7px;
+  overflow: hidden;
+`;
 
 function CabinTable() {
   const { isLoading, cabins } = useCabin();
@@ -47,15 +46,15 @@ function CabinTable() {
   if (isLoading) return <Spinner />;
 
   return (
-    <Table columns="0.6fr 1.8fr 2.2fr 1fr 1fr 1fr">
-      <Table.Header>
+    <Table row="table">
+      <TableHeader role="row">
         <div></div>
         <div>Cabin</div>
         <div>Capacity</div>
         <div>Price</div>
         <div>Discount</div>
         <div></div>
-      </Table.Header>
+      </TableHeader>
       {cabins.map((cabin) => (
         <CabinRow cabin={cabin} key={cabin.id} />
       ))}
