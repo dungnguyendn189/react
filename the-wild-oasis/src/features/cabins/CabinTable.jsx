@@ -1,12 +1,3 @@
-// // import styled from 'styled-components';
-// import CabinRow from "features/cabins/CabinRow";
-
-// import Table from "ui/Table";
-// import Menus from "ui/Menus";
-// import Empty from "ui/Empty";
-// import { useCabins } from "features/cabins/useCabins";
-// import { useSearchParams } from "react-router-dom";
-// import { Suspense } from "react";
 import styled from "styled-components";
 
 import CabinRow from "./CabinRow";
@@ -14,10 +5,8 @@ import useCabin from "./useCabin";
 import Spinner from "../../ui/Spinner";
 import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
-// v2
-// Right now this is not really reusable... But we will want to use a similar table for guests as well, but with different columns. ALSO, right now we are defining these columns in BOTH the TableHeader and the CabinRow, which is not good at all. Instead, it would be much better to simply pass the columns into the Table, and the table would give access to the columns to both the header and row. So how can we do that? Well we can again use a compound component! We don't HAVE to do it like this, there's a million ways to implement a table, also without CSS Grid, but this is what I chose
+import { useSearchParams } from "react-router-dom";
 
-// v1;
 const TableHeader = styled.header`
   display: grid;
   grid-template-columns: 0.6fr 1.8fr 2.2fr 1fr 1fr 1fr;
@@ -33,18 +22,20 @@ const TableHeader = styled.header`
   padding: 1.6rem 2.4rem;
 `;
 
-// const Table = styled.div`
-//   border: 1px solid var(--color-grey-200);
-//   font-size: 1.4rem;
-//   background-color: var(--color-grey-200);
-//   border-radius: 7px;
-//   overflow: hidden;
-// `;
-
 function CabinTable() {
   const { isLoading, cabins } = useCabin();
+  const [searchParams] = useSearchParams();
 
   if (isLoading) return <Spinner />;
+
+  const filterValue = searchParams.get("discount") || "all";
+
+  let filteredCabins;
+  if (filterValue === "all") filteredCabins = cabins;
+  if (filterValue === "no-discount")
+    filteredCabins = cabins.filter((cabin) => cabin.discount === 0);
+  if (filterValue === "with-discount")
+    filteredCabins = cabins.filter((cabin) => cabin.discount > 0);
 
   return (
     <Menus>
@@ -58,7 +49,7 @@ function CabinTable() {
           <div></div>
         </Table.Header>
         <Table.Body
-          data={cabins}
+          data={filteredCabins}
           render={(cabin) => <CabinRow cabin={cabin} key={cabin.id} />}
         />
       </Table>

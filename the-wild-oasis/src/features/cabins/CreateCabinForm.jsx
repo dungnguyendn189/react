@@ -133,22 +133,11 @@ function CreateCabinForm({ cabinToEdit = {}, onClose }) {
             required: isEditSession ? false : "This field is required",
           })}
           disabled={isWorking}
-
-          //   // VIDEO this doesn't work, so never mind about this, it's too much
-          //   // validate: (value) =>
-          //   //   value[0]?.type.startsWith('image/') || 'Needs to be an image',
-          // })}
         />
       </FormRow>
 
       <FormRow>
-        {/* type is an HTML attribute! */}
-        <Button
-          variation="secondary"
-          type="reset"
-          // disabled={isWorking}
-          onClick={() => onClose?.()}
-        >
+        <Button variation="secondary" type="reset" onClick={() => onClose?.()}>
           Cancel
         </Button>
         <Button disabled={isWorking}>
@@ -160,55 +149,3 @@ function CreateCabinForm({ cabinToEdit = {}, onClose }) {
 }
 
 export default CreateCabinForm;
-
-// { cabinToEdit, closeModal }
-// const { mutate: createCabin, isLoading: isCreating } = useCreateCabin();
-// const { mutate: editCabin, isLoading: isEditing } = useEditCabin();
-// const isWorking = isCreating || isEditing;
-
-// // For an editing session
-// const { id: editId, ...editValues } = cabinToEdit || {};
-// delete editValues.created_at;
-// const isEditSession = Boolean(editId);
-
-// // One of the key concepts in React Hook Form is to register your component into the hook. This will make its value available for both the form validation and submission.
-// const { register, handleSubmit, formState, reset, getValues } = useForm({
-//   defaultValues: isEditSession ? editValues : {},
-// });
-// const { errors } = formState;
-
-// // Invoked in ALL validation passes. Here we get access to the form data
-// const onSubmit = function (data) {
-//   // No need to validate here, because it's already been done. This is REALLY nice!
-
-//   const options = {
-//     onSuccess: (data) => {
-//       // If this component is used OUTSIDE the Modal Context, this will return undefined, so we need to test for this
-//       closeModal?.();
-//       reset();
-//     },
-//   };
-
-//   const image = typeof data.image === "object" ? data.image[0] : data.image;
-
-//   if (isEditSession)
-//     editCabin(
-//       {
-//         newCabinData: { ...data, image },
-//         id: editId,
-//       },
-//       options
-//     );
-//   else createCabin({ ...data, image }, options);
-// };
-
-// // Invoked when validation fails
-// const onError = function (errors) {
-//   console.log("Failed validation!", errors);
-// };
-
-// By default, validation happens the moment we submit the form, so when we call handleSubmit. From them on, validation happens on the onChange event [demonstrate]. We cah change that by passing options into useForm ('mode' and 'reValidateMode')
-// https://react-hook-form.com/api/useform
-
-// The registered names need to be the same as in the Supabase table. This makes it easier to send the request
-// "handleSubmit" will validate your inputs before invoking "onSubmit"
