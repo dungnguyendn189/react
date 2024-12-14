@@ -4,6 +4,9 @@ import Table from "../../ui/Table";
 // import { useBookings } from "features/bookings/useBookings";
 import Menus from "../../ui/Menus";
 import BookingRow from "../bookings/BookingRow";
+import Empty from "../../ui/Empty";
+import { useBookings } from "./useBookings";
+import Spinner from "../../ui/Spinner";
 // import Pagination from "../../ui/Pagination";
 
 // v2
@@ -29,7 +32,11 @@ import BookingRow from "../bookings/BookingRow";
 
 function BookingTable() {
   // const { bookings, count, isLoading } = useBookings();
-  const bookings = [];
+  const { bookings, isLoading } = useBookings();
+  if (isLoading) return <Spinner />;
+
+  console.log(bookings);
+  if (!bookings.length) return <Empty resource="bookings" />;
 
   // if (isLoading) return <Spinner />;
   // if (!bookings) return <Empty resource={"bookings"} />;
