@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 import Row from "../../ui/Row";
@@ -8,6 +7,10 @@ import Button from "../../ui/Button";
 
 import { useMoveBack } from "../../hooks/useMoveBack";
 import ButtonText from "../../ui/ButtonText";
+import { useBooking } from "./useBooking";
+import Spinner from "../../ui/Spinner";
+import Tag from "../../ui/Tag";
+import BookingDataBox from "./BookingDataBox";
 
 const HeadingGroup = styled.div`
   display: flex;
@@ -16,8 +19,14 @@ const HeadingGroup = styled.div`
 `;
 
 function BookingDetail() {
+  const { booking, isLoading } = useBooking();
   const moveBack = useMoveBack();
-  const navigate = useNavigate();
+
+  if (isLoading) return <Spinner />;
+
+  const { status, id: bookingId } = booking;
+
+  console.log(bookingId);
 
   const statusToTagName = {
     unconfirmed: "blue",
@@ -29,10 +38,12 @@ function BookingDetail() {
     <>
       <Row type="horizontal">
         <HeadingGroup>
-          <Heading type="h1">Booking #Aa</Heading>
+          <Heading type="h1">Booking #{bookingId}</Heading>
+          <Tag type={statusToTagName[status]}>{status.replace("-", " ")}</Tag>
         </HeadingGroup>
         <ButtonText onClick={moveBack}>&larr; Back</ButtonText>
       </Row>
+      <BookingDataBox booking={booking} />
       <ButtonGroup>
         <Button variation="secondary" onClick={moveBack}>
           Back
@@ -43,35 +54,3 @@ function BookingDetail() {
 }
 
 export default BookingDetail;
-
-{
-  /* {status === "unconfirmed" && (
-          <Button onClick={() => navigate(`/checkin/${bookingId}`)}>
-            Check in
-          </Button>
-        )} */
-}
-
-{
-  /* {status === "checked-in" && (
-          <Button onClick={() => checkout(bookingId)} disabled={isCheckingOut}>
-            Check out
-          </Button>
-        )} */
-}
-{
-  /* 
-        <Modal>
-          <Modal.Toggle opens="delete">
-            <Button variation="danger">Delete booking</Button>
-          </Modal.Toggle>
-          <Modal.Window name="delete">
-            <ConfirmDelete
-              resource="booking"
-              // These options will be passed wherever the function gets called, and they determine what happens next
-              onConfirm={(options) => deleteBooking(bookingId, options)}
-              disabled={isDeleting}
-            />
-          </Modal.Window>
-        </Modal> */
-}
