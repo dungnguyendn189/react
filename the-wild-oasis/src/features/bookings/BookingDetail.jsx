@@ -14,6 +14,9 @@ import BookingDataBox from "./BookingDataBox";
 import { useNavigate } from "react-router-dom";
 import { HiArrowDownOnSquare, HiArrowUpOnSquare } from "react-icons/hi2";
 import { useCheckOut } from "../check-in-out/useCheckOut";
+import Modal from "../../ui/Modal";
+import { useDeleteBooking } from "./useDeleteBooking";
+import ConfirmDelete from "../../ui/ConfirmDelete";
 
 const HeadingGroup = styled.div`
   display: flex;
@@ -24,6 +27,8 @@ const HeadingGroup = styled.div`
 function BookingDetail() {
   const { booking, isLoading } = useBooking();
   const { checkout, isCheckOut } = useCheckOut();
+  const { isDeleting, deleteBooking } = useDeleteBooking();
+
   const moveBack = useMoveBack();
   const navigate = useNavigate();
 
@@ -70,6 +75,22 @@ function BookingDetail() {
             Check Out
           </Button>
         )}
+        <Modal>
+          <Modal.Open opens="delete">
+            <Button variation="danger">Delete</Button>
+          </Modal.Open>
+          <Modal.Window name="delete">
+            <ConfirmDelete
+              resource="booking"
+              disable={isDeleting}
+              onConfirm={() => {
+                deleteBooking(bookingId, {
+                  onSuccess: () => navigate(-1),
+                });
+              }}
+            />
+          </Modal.Window>
+        </Modal>
         <Button variation="secondary" onClick={moveBack}>
           Back
         </Button>
