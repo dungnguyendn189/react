@@ -23,7 +23,15 @@ export const getToday = function (options = {}) {
   return today.toISOString();
 };
 
-export const formatCurrency = (value) =>
-  new Intl.NumberFormat('en', { style: 'currency', currency: 'USD' }).format(
-    value
-  );
+export const formatCurrency = (value) => {
+  const formattedValue = new Intl.NumberFormat('en', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 2,
+  }).format(value);
+
+  // Loại bỏ hai số không ở cuối nếu có
+  return formattedValue.replace(/\.00$/, '');
+};
+
