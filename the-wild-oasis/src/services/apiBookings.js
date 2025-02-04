@@ -113,7 +113,7 @@ export async function updateBooking(id, obj) {
 
   if (error) {
     console.error(error);
-    throw new Error("Booking could not be updated");
+    throw new Error(error.message || "Booking could not be updated");
   }
   return data;
 }

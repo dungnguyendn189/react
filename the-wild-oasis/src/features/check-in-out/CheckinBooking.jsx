@@ -39,7 +39,7 @@ function CheckinBooking() {
     hasBreakfast,
     numNights,
   } = booking;
-
+  console.log(booking);
   const optionalBreakfastPrice =
     settings.breakfastPrice * numNights * numGuests;
 
@@ -55,7 +55,7 @@ function CheckinBooking() {
         },
       });
     } else {
-      checkin({ bookingId, breakfast: {} });
+      checkin(bookingId);
     }
   };
 
@@ -71,7 +71,7 @@ function CheckinBooking() {
           <CheckBox
             checked={addBreakfast}
             onChange={() => {
-              setAddBreakfast((add) => !add);
+              setAddBreakfast(!addBreakfast);
               setComfirmPaid(false);
             }}
             id="breakfast"
@@ -87,7 +87,6 @@ function CheckinBooking() {
           disabled={confirmPaid || isCheckin}
           id="comfirm"
         >
-          {" "}
           I confirm that {guests.fullName} has paid the total amount{" "}
           {!addBreakfast
             ? formatCurrency(totalPrice)
