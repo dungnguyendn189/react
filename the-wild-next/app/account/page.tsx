@@ -1,3 +1,6 @@
+export const metadata = {
+  title: "Account",
+};
 const Page: React.FC = () => {
   return (
     <div>
