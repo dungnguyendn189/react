@@ -5,8 +5,8 @@ import logo from "@/public/icon.png";
 
 const Logo: FC = () => {
   return (
-    <div>
-      <Link href="/" className="flex items-center gap-4 z-10">
+    <div className="z-10">
+      <Link href="/" className="flex items-center gap-4">
         <Image
           src={logo}
           height="60"
