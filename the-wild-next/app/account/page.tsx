@@ -3,9 +3,9 @@ export const metadata = {
 };
 const Page: React.FC = () => {
   return (
-    <div>
-      <h1>This Account</h1>
-    </div>
+    <h2 className="font-semibold text-2xl text-accent-400 mb-7">
+      Welcome , Dũng Mập
+    </h2>
   );
 };
 

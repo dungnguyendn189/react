@@ -1,12 +1,11 @@
 import CabinCard from "@/app/_components/CabinCard";
+import { Cabin } from "./cabinType";
 
-interface Cabin extends Record<string, any> {}
+interface CabinCardProps {
+  cabin: Cabin; // Đảm bảo kiểu này khớp với interface Cabin đã định nghĩa
+}
 
-export const metadata = {
-  title: "Cabins",
-};
-
-const Page: React.FC = () => {
+const Page: React.FC<CabinCardProps> = ({}) => {
   const cabins: Cabin[] = [];
   return (
     <div>
@@ -24,7 +23,7 @@ const Page: React.FC = () => {
       {cabins.length > 0 && (
         <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 xl:gap-14">
           {cabins.map((cabin) => (
-            <CabinCard cabin={cabin} key={cabin.id} />
+            <CabinCard cabin={cabin} key={cabin?.id || Math.random()} />
           ))}
         </div>
       )}

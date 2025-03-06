@@ -9,8 +9,6 @@ const josefin = Josefin_Sans({
   display: "swap",
 });
 
-console.log(josefin);
-
 export const metadata = {
   // title: "The Wild Oasis",
   title: {
