@@ -22,7 +22,7 @@ const Page: React.FC<ReservationCardProps> = ({}) => {
           </a>
         </p>
       ) : (
-        <ul className="space-y-6">
+        <ul className="space-y-6 ">
           {bookings.map((booking) => (
             <ReservationCard booking={booking} key={booking.id} />
           ))}

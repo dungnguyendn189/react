@@ -6,4 +6,5 @@ export interface Cabin {
     discount: number;
     description: string;
     image: string;
+    created_at: Date
 }

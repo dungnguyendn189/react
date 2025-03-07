@@ -1,11 +1,11 @@
 import { eachDayOfInterval } from "date-fns";
 import { Country } from "./types";
-import { promises } from "dns";
+import { supabase } from "./supabase";
 
 /////////////
 // GET
 
-export async function getCabin(id) {
+export async function getCabin(id: number) {
   const { data, error } = await supabase
     .from("cabins")
     .select("*")
@@ -22,7 +22,7 @@ export async function getCabin(id) {
   return data;
 }
 
-export async function getCabinPrice(id) {
+export async function getCabinPrice(id: number) {
   const { data, error } = await supabase
     .from("cabins")
     .select("regularPrice, discount")
@@ -51,7 +51,7 @@ export const getCabins = async function () {
 };
 
 // Guests are uniquely identified by their email address
-export async function getGuest(email) {
+export async function getGuest(email: string) {
   const { data, error } = await supabase
     .from("guests")
     .select("*")
@@ -62,7 +62,7 @@ export async function getGuest(email) {
   return data;
 }
 
-export async function getBooking(id) {
+export async function getBooking(id: number) {
   const { data, error, count } = await supabase
     .from("bookings")
     .select("*")
@@ -77,7 +77,7 @@ export async function getBooking(id) {
   return data;
 }
 
-export async function getBookings(guestId) {
+export async function getBookings(guestId: number) {
   const { data, error, count } = await supabase
     .from("bookings")
     // We actually also need data on the cabins as well. But let's ONLY take the data that we actually need, in order to reduce downloaded data.
@@ -95,7 +95,7 @@ export async function getBookings(guestId) {
   return data;
 }
 
-export async function getBookedDatesByCabinId(cabinId) {
+export async function getBookedDatesByCabinId(cabinId: number) {
   let today = new Date();
   today.setUTCHours(0, 0, 0, 0);
   today = today.toISOString();
@@ -146,10 +146,8 @@ export async function getCountries(): Promise<Country[]> {
     }
     const countries: Country[] = await res.json();
     return countries;
-  } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : String(error);
-
-    throw new Error("Could not fetch countries" + errorMessage);
+  } catch (err) {
+    throw new Error("Could not fetch countries");
   }
 }
 

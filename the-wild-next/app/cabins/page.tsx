@@ -1,12 +1,13 @@
 import CabinCard from "@/app/_components/CabinCard";
 import { Cabin } from "./cabinType";
+import { getCabins } from "../_lib/data-service";
 
 interface CabinCardProps {
   cabin: Cabin; // Đảm bảo kiểu này khớp với interface Cabin đã định nghĩa
 }
 
-const Page: React.FC<CabinCardProps> = ({}) => {
-  const cabins: Cabin[] = [];
+const Page: React.FC<CabinCardProps> = async ({}) => {
+  const cabins = await getCabins();
   return (
     <div>
       <h1 className="text-4xl mb-5 text-accent-400 font-medium">
@@ -21,7 +22,7 @@ const Page: React.FC<CabinCardProps> = ({}) => {
         Welcome to paradise.
       </p>
       {cabins.length > 0 && (
-        <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 xl:gap-14">
+        <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 xl:gap-14 ">
           {cabins.map((cabin) => (
             <CabinCard cabin={cabin} key={cabin?.id || Math.random()} />
           ))}
