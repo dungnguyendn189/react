@@ -4,7 +4,8 @@ export interface Cabin {
     maxCapacity: number;
     regularPrice: number;
     discount: number;
-    description: string;
+    description?: string;
     image: string;
-    created_at: Date
+    created_at?: Date
+
 }

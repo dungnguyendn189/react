@@ -1,13 +1,8 @@
-import CabinCard from "@/app/_components/CabinCard";
-import { Cabin } from "./cabinType";
-import { getCabins } from "../_lib/data-service";
+import { Suspense } from "react";
+import CabinList from "../_components/CabinList";
+import Spinner from "../_components/Spinner";
 
-interface CabinCardProps {
-  cabin: Cabin; // Đảm bảo kiểu này khớp với interface Cabin đã định nghĩa
-}
-
-const Page: React.FC<CabinCardProps> = async ({}) => {
-  const cabins = await getCabins();
+const Page: React.FC = () => {
   return (
     <div>
       <h1 className="text-4xl mb-5 text-accent-400 font-medium">
@@ -21,13 +16,9 @@ const Page: React.FC<CabinCardProps> = async ({}) => {
         home away from home. The perfect spot for a peaceful, calm vacation.
         Welcome to paradise.
       </p>
-      {cabins.length > 0 && (
-        <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 xl:gap-14 ">
-          {cabins.map((cabin) => (
-            <CabinCard cabin={cabin} key={cabin?.id || Math.random()} />
-          ))}
-        </div>
-      )}
+      <Suspense fallback={<Spinner />}>
+        <CabinList />
+      </Suspense>
     </div>
   );
 };
