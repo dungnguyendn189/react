@@ -6,12 +6,21 @@ type PageProps = {
   params: { cabinId: string };
 };
 
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ cabinId: string }>;
+}) {
+  const resolvedParams = await params;
+  const { name } = await getCabin(parseInt(resolvedParams.cabinId));
+  return { title: `Cabin ${name}` };
+}
+
 const Page: React.FC<PageProps> = async ({ params: paramsPromise }) => {
   const params = await paramsPromise;
   const cabin = await getCabin(parseInt(params.cabinId));
 
-  const { id, name, maxCapacity, regularPrice, discount, image, description } =
-    cabin;
+  const { name, maxCapacity, image, description } = cabin;
 
   return (
     <div className="max-w-6xl mx-auto mt-8">
