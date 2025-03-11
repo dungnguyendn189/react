@@ -1,24 +1,33 @@
-import { getCabin } from "@/app/_lib/data-service";
+import { getCabin, getCabins } from "@/app/_lib/data-service";
 import { EyeSlashIcon, MapPinIcon, UsersIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
+import { Metadata } from "next";
 
-type PageProps = {
-  params: { cabinId: string };
+type Props = {
+  params: Promise<{ cabinId: string }>;
 };
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ cabinId: string }>;
-}) {
-  const resolvedParams = await params;
-  const { name } = await getCabin(parseInt(resolvedParams.cabinId));
-  return { title: `Cabin ${name}` };
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const resolvedParams = await params; // Giải quyết Promise
+  const cabinName = await getCabin(parseInt(resolvedParams.cabinId))
+
+  return {
+    title: `Cabin: ${cabinName}`,
+
+  };
 }
 
-const Page: React.FC<PageProps> = async ({ params: paramsPromise }) => {
-  const params = await paramsPromise;
-  const cabin = await getCabin(parseInt(params.cabinId));
+export async function generateStaticParams() {
+  const cabins = await getCabins()
+  const ids = cabins.map(cabin => ({ cabinId: String(cabin.id) }))
+  return ids
+}
+
+
+const Page: React.FC<Props> = async ({ params }:Props) => {
+  const paramsGets =  await params;
+  const cabin = await getCabin(parseInt(paramsGets.cabinId));
+
 
   const { name, maxCapacity, image, description } = cabin;
 
@@ -70,3 +79,5 @@ const Page: React.FC<PageProps> = async ({ params: paramsPromise }) => {
 };
 
 export default Page;
+
+
