@@ -3,12 +3,16 @@ import about1 from "@/public/about-1.jpg";
 import about2 from "@/public/about-2.jpg";
 
 import Image from "next/image";
+import { getCabins } from "../_lib/data-service";
+
+export const revalidate = 86400;
 
 export const metadata = {
   title: "About",
 };
 
-const Page: React.FC = () => {
+const Page: React.FC =async () => {
+  const cabins = await getCabins()
   return (
     <div className="grid grid-cols-5 gap-x-24 gap-y-32 text-lg items-center">
       <div className="col-span-3">
@@ -24,7 +28,7 @@ const Page: React.FC = () => {
             and enjoying simple pleasures with family.
           </p>
           <p>
-            Our 8 luxury cabins provide a cozy base, but the real freedom and
+            Our {cabins.length} luxury cabins provide a cozy base, but the real freedom and
             peace you&apos;ll find in the surrounding mountains. Wander through
             lush forests, breathe in the fresh air, and watch the stars twinkle
             above from the warmth of a campfire or your hot tub.

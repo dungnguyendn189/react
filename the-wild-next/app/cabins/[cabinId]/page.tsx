@@ -3,9 +3,12 @@ import { EyeSlashIcon, MapPinIcon, UsersIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import { Metadata } from "next";
 
+
+
 type Props = {
   params: Promise<{ cabinId: string }>;
 };
+
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const resolvedParams = await params; // Giải quyết Promise
@@ -18,9 +21,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export async function generateStaticParams() {
-  const cabins = await getCabins()
-  const ids = cabins.map(cabin => ({ cabinId: String(cabin.id) }))
-  return ids
+  const cabins = await getCabins();
+  const ids = cabins.map(cabin => ({ cabinId: String(cabin.id) }));
+  return ids;
 }
 
 

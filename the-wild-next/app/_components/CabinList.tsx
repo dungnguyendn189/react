@@ -1,11 +1,11 @@
+// import { unstable_noStore as noStore } from "next/cache";
 import CabinCard from "@/app/_components/CabinCard";
 import { getCabins } from "../_lib/data-service";
-
 const CabinList: React.FC = async () => {
   const cabins = await getCabins();
 
   if (!cabins.length) return null;
-
+// noStore()
   return (
     <>
       {cabins.length > 0 && (
